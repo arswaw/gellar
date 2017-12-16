@@ -18,13 +18,13 @@
             <a class="nav-link active" href="#">Dashboard</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Management</a>
+            <a class="nav-link" href="#">Teams</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Cloud</a>
+            <a class="nav-link" href="#">Users</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Tenants</a>
+            <a class="nav-link" href="#">My Profile</a>
         </li>
     </ul>
 </nav>
@@ -40,13 +40,20 @@
             <div class="card-text">
                 <div class="row">
                   <div class="col-sm">{{item.body}}</div>
-                  <div class="col-sm"><button class="btn btn-link">Add ToDo</button></div>
+                  <div class="col-sm"><button (click)="onAddNewToDo(b)" class="btn btn-link">Add ToDo</button></div>
                   <div (click)="deleteItem(b)" class="col-sm"><button class="btn btn-warning">Delete</button></div>
+                </div><br>
+                <div id="toDoEditor" *ngIf="creatingNewToDo && b === selectedItemIndex">
+                    <input type="text" name="toDoTitle" [(ngModel)]="newToDoName">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      <button type="button" (click)="cancelToDoCreate()" class="btn btn-secondary">Cancel</button>
+                      <button type="button" (click)="confirmToDoCreate()" class="btn btn-primary">Confirm</button>
+                    </div>
                 </div>
             </div>
             <ng-container *ngIf="item.toDos.length > 0">
             <ul class="list-group" *ngFor="let toDo of item.toDos">
-              <li class="list-group-item"></li>
+              <li (click)="toDo.isDone ? false : true" class="list-group-item">{{toDo.title}} <span class="badge badge-info">{{toDo.isDone ? "Completed" : "Incomplete"}}</span></li>
             </ul>
             </ng-container>
         </div>

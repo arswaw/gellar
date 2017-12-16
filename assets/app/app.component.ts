@@ -30,6 +30,10 @@ export class AppComponent {
     private creatingNewItem : boolean = false;
     private newItemName : string;
     
+    private creatingNewToDo : boolean = false;
+    private newToDoName : string;
+    private selectedItemIndex : number;
+    
     private cancelBoardCreate() : void {
         this.newBoardName = "";
         this.creatingNewBoard = false;
@@ -72,5 +76,25 @@ export class AppComponent {
     
     private deleteItem(index : number) : void {
         this.boards[this.selectedBoardIndex].items.splice(index, 1)
+    }
+    
+    private onAddNewToDo(index : number) : void {
+        this.selectedItemIndex = index;
+        this.newToDoName = "";
+        this.creatingNewToDo = true;
+    }
+    
+    private cancelToDoCreate() : void {
+        this.newToDoName = "";
+        this.creatingNewToDo = false;
+    }
+    
+    private confirmToDoCreate() {
+        this.boards[this.selectedBoardIndex].items[this.selectedItemIndex].toDos.push({
+            title: this.newToDoName,
+            isDone : false
+        })
+        this.newToDoName = "";
+        this.creatingNewToDo = false;
     }
 }

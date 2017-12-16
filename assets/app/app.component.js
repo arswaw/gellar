@@ -16,6 +16,7 @@ var AppComponent = /** @class */ (function () {
         this.creatingNewBoard = false;
         this.selectedBoardIndex = 0;
         this.creatingNewItem = false;
+        this.creatingNewToDo = false;
     }
     AppComponent.prototype.cancelBoardCreate = function () {
         this.newBoardName = "";
@@ -53,6 +54,23 @@ var AppComponent = /** @class */ (function () {
     };
     AppComponent.prototype.deleteItem = function (index) {
         this.boards[this.selectedBoardIndex].items.splice(index, 1);
+    };
+    AppComponent.prototype.onAddNewToDo = function (index) {
+        this.selectedItemIndex = index;
+        this.newToDoName = "";
+        this.creatingNewToDo = true;
+    };
+    AppComponent.prototype.cancelToDoCreate = function () {
+        this.newToDoName = "";
+        this.creatingNewToDo = false;
+    };
+    AppComponent.prototype.confirmToDoCreate = function () {
+        this.boards[this.selectedBoardIndex].items[this.selectedItemIndex].toDos.push({
+            title: this.newToDoName,
+            isDone: false
+        });
+        this.newToDoName = "";
+        this.creatingNewToDo = false;
     };
     AppComponent = __decorate([
         core_1.Component({

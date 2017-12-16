@@ -18,7 +18,7 @@ export class AppComponent {
         
     private onAddNewItem() : void {
         this.items.push({
-            body: `Random number which is ${Math.random()}`
+            body: `Random number which is ${Math.floor(Math.random() * 100)}`
         })
     }
     

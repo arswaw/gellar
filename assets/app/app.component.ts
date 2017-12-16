@@ -16,10 +16,17 @@ export class AppComponent {
         {body:"A thing I need to do"}
         ];
         
+    private randomTemp : number[] = [1];
+        
     private onAddNewItem() : void {
         this.items.push({
-            body: `Random number which is ${Math.floor(Math.random() * 100)}`
+            body: `Random number which is ${this.getRandomNumber()[0]}`
         })
+    }
+    
+    private getRandomNumber() : number {
+        this.randomTemp.push(100 + Math.floor(Math.random() * 100));
+        return this.randomTemp;
     }
     
     private onCloseItem(i : number) : void {

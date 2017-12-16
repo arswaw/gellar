@@ -15,11 +15,16 @@ var AppComponent = /** @class */ (function () {
         this.items = [
             { body: "A thing I need to do" }
         ];
+        this.randomTemp = [1];
     }
     AppComponent.prototype.onAddNewItem = function () {
         this.items.push({
-            body: "Random number which is " + Math.floor(Math.random() * 100)
+            body: "Random number which is " + this.getRandomNumber()[0]
         });
+    };
+    AppComponent.prototype.getRandomNumber = function () {
+        this.randomTemp.push(100 + Math.floor(Math.random() * 100));
+        return this.randomTemp;
     };
     AppComponent.prototype.onCloseItem = function (i) {
         this.items.splice(i, 1);

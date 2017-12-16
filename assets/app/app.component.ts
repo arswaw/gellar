@@ -3,6 +3,15 @@ import {Component} from '@angular/core';
 
 interface Items {
     body : string;
+    toDos : IToDo[];
+}
+interface IToDo {
+    title : string;
+    isDone : boolean;
+}
+interface IBoards {
+    title: string;
+    items : Items[];
 }
 @Component({
     selector: 'my-app',
@@ -12,24 +21,56 @@ interface Items {
 export class AppComponent { 
     constructor() {}
     
-    private items : Items[] = [
-        {body:"A thing I need to do"}
-        ];
-        
-    private randomTemp : number[] = [1];
-        
-    private onAddNewItem() : void {
-        this.items.push({
-            body: `Random number which is ${this.getRandomNumber()[0]}`
+    private boards : IBoards[] = [];
+    
+    private creatingNewBoard : boolean = false;
+    private newBoardName : string;
+    private selectedBoardIndex : number = 0;
+    
+    private creatingNewItem : boolean = false;
+    private newItemName : string;
+    
+    private cancelBoardCreate() : void {
+        this.newBoardName = "";
+        this.creatingNewBoard = false;
+    } 
+    
+    private onAddNewBoard() : void {
+        this.newBoardName = "";
+        this.creatingNewBoard = true;
+    }
+    
+    private confirmBoardCreate() : void {
+        this.boards.push({
+            title:this.newBoardName,
+            items:[]
         })
+        this.selectedBoardIndex = this.boards.length-1;
+        console.log("selectedBoardIndex", this.selectedBoardIndex, this.boards)
+        this.creatingNewBoard = false;
+        this.newBoardName = "";
     }
     
-    private getRandomNumber() : number {
-        this.randomTemp.push(100 + Math.floor(Math.random() * 100));
-        return this.randomTemp;
+    private onAddNewItem() : void {
+        this.newItemName = "";
+        this.creatingNewItem = true;
     }
     
-    private onCloseItem(i : number) : void {
-        this.items.splice(i,1)
+    private cancelItemCreate() : void {
+        this.newItemName = "";
+        this.creatingNewItem = false;
+    }
+    
+    private confirmItemCreate() : void {
+        this.boards[this.selectedBoardIndex].items.push({
+            body: this.newItemName,
+            toDos: []
+        })
+        this.newItemName = "";
+        this.creatingNewItem = false;
+    }
+    
+    private deleteItem(index : number) : void {
+        this.boards[this.selectedBoardIndex].items.splice(index, 1)
     }
 }

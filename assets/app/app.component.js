@@ -12,22 +12,47 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.items = [
-            { body: "A thing I need to do" }
-        ];
-        this.randomTemp = [1];
+        this.boards = [];
+        this.creatingNewBoard = false;
+        this.selectedBoardIndex = 0;
+        this.creatingNewItem = false;
     }
-    AppComponent.prototype.onAddNewItem = function () {
-        this.items.push({
-            body: "Random number which is " + this.getRandomNumber()[0]
+    AppComponent.prototype.cancelBoardCreate = function () {
+        this.newBoardName = "";
+        this.creatingNewBoard = false;
+    };
+    AppComponent.prototype.onAddNewBoard = function () {
+        this.newBoardName = "";
+        this.creatingNewBoard = true;
+    };
+    AppComponent.prototype.confirmBoardCreate = function () {
+        this.boards.push({
+            title: this.newBoardName,
+            items: []
         });
+        this.selectedBoardIndex = this.boards.length - 1;
+        console.log("selectedBoardIndex", this.selectedBoardIndex, this.boards);
+        this.creatingNewBoard = false;
+        this.newBoardName = "";
     };
-    AppComponent.prototype.getRandomNumber = function () {
-        this.randomTemp.push(100 + Math.floor(Math.random() * 100));
-        return this.randomTemp;
+    AppComponent.prototype.onAddNewItem = function () {
+        this.newItemName = "";
+        this.creatingNewItem = true;
     };
-    AppComponent.prototype.onCloseItem = function (i) {
-        this.items.splice(i, 1);
+    AppComponent.prototype.cancelItemCreate = function () {
+        this.newItemName = "";
+        this.creatingNewItem = false;
+    };
+    AppComponent.prototype.confirmItemCreate = function () {
+        this.boards[this.selectedBoardIndex].items.push({
+            body: this.newItemName,
+            toDos: []
+        });
+        this.newItemName = "";
+        this.creatingNewItem = false;
+    };
+    AppComponent.prototype.deleteItem = function (index) {
+        this.boards[this.selectedBoardIndex].items.splice(index, 1);
     };
     AppComponent = __decorate([
         core_1.Component({

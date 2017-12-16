@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var app_component_1 = require("./app.component");
+var forms_1 = require("@angular/forms");
 //import { ClarityModule } from 'clarity-angular';
 //import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 //import { MaterialModule } from '@angular/material';
@@ -19,7 +20,7 @@ var AppModule = /** @class */ (function () {
     AppModule = __decorate([
         core_1.NgModule({
             declarations: [app_component_1.AppComponent],
-            imports: [platform_browser_1.BrowserModule],
+            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule],
             bootstrap: [app_component_1.AppComponent],
         })
     ], AppModule);

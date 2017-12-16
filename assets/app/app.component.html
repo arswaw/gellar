@@ -29,18 +29,26 @@
     </ul>
 </nav>
     <div class="content-container">
-        <div class="content-area">
-            <div class="card-columns">
-            <div *ngFor="let item of items;let i=index">
+        <h1 *ngIf="boards.length >= 1 && boards[selectedBoardIndex].items.length===0">
+            This board is empty. Add an item to it.
+        </h1>
+        <div class="content-area" *ngIf="boards.length >= 1">
+            <div class="card-columns" >
+            <div *ngFor="let item of boards[selectedBoardIndex].items;let b=index">
                 <a href="javascript://" class="card clickable">
-        <div class="card-block">
-            <p class="card-text">
-                {{item.body}}
-            </p>
-            <button class="btn btn-danger" href="javascript://" (click)="onCloseItem(i)">Close</button>
-        </div>
-        <div class="card-img">
-            <img src="http://placehold.it/510x{{randomTemp[i]}}">
+        <div class="container-fluid card-block">
+            <div class="card-text">
+                <div class="row">
+                  <div class="col-sm">{{item.body}}</div>
+                  <div class="col-sm"><button class="btn btn-link">Add ToDo</button></div>
+                  <div (click)="deleteItem(b)" class="col-sm"><button class="btn btn-warning">Delete</button></div>
+                </div>
+            </div>
+            <ng-container *ngIf="item.toDos.length > 0">
+            <ul class="list-group" *ngFor="let toDo of item.toDos">
+              <li class="list-group-item"></li>
+            </ul>
+            </ng-container>
         </div>
     </a>
             </div>
@@ -49,24 +57,32 @@
         <nav class="sidenav">
             <section class="sidenav-content">
                 <button class="btn btn-primary" (click)="onAddNewBoard()">New Board</button>
+                <div *ngIf="creatingNewBoard">
+                    <input type="text" [(ngModel)]="newBoardName" placeholder="Name your new board..."><br>
+                    <div class="btn-group" role="group" aria-label="New Board">
+                      <button type="button" (click)="cancelBoardCreate()" class="btn btn-secondary">Cancel</button>
+                      <button type="button" (click)="confirmBoardCreate()" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
                 <section class="nav-group collapsible">
                     <input id="tabexample1" type="checkbox">
                     <label for="tabexample1">Boards</label>
-                    <ul class="nav-list">
-                        <li><a class="nav-link">Board Meetings</a></li>
-                        <li><a class="nav-link">Other Stuff</a></li>
+                    <ul class="nav-list" *ngFor="let board of boards;let e=index">
+                        <li><a (click)="selectedBoardIndex=e" class="nav-link">{{board.title}}</a></li>
                     </ul>
                 </section>
-                <section class="nav-group">
+                <section class="nav-group" *ngIf="boards.length > 0">
                     <label for="tabexample2">Open Items</label>
                     <button class="btn btn-primary" (click)="onAddNewItem()">New Item</button>
-                    <ul class="nav-list">
-                        <li><a class="nav-link">Link 1</a></li>
-                        <li><a class="nav-link">Link 2</a></li>
-                        <li><a class="nav-link active">Link 3</a></li>
-                        <li><a class="nav-link">Link 4</a></li>
-                        <li><a class="nav-link">Link 5</a></li>
-                        <li><a class="nav-link">Link 6</a></li>
+                    <div *ngIf="creatingNewItem">
+                    <input type="text" [(ngModel)]="newItemName" placeholder="Name your new category..."><br>
+                    <div class="btn-group" role="group" aria-label="New Category">
+                      <button type="button" (click)="cancelItemCreate()" class="btn btn-secondary">Cancel</button>
+                      <button type="button" (click)="confirmItemCreate()" class="btn btn-primary">Create</button>
+                    </div>
+                    </div>
+                    <ul class="nav-list" *ngFor="let item of boards[selectedBoardIndex].items;let c=index">
+                        <li><a class="nav-link">{{item.body}}</a></li>
                     </ul>
                 </section>
             </section>

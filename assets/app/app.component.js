@@ -18,7 +18,7 @@ var AppComponent = /** @class */ (function () {
     }
     AppComponent.prototype.onAddNewItem = function () {
         this.items.push({
-            body: "Random number which is " + Math.random()
+            body: "Random number which is " + Math.floor(Math.random() * 100)
         });
     };
     AppComponent.prototype.onCloseItem = function (i) {
